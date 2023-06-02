@@ -76,7 +76,7 @@ if __name__=='__main__':
     writer = SummaryWriter(f'runs/{exp_name}')
     train(unet, optimizer, loader, epochs=epochs, writer=writer)
     perm = torch.randperm(len(loader.dataset))
-    images = loader.dataset[perm][:256]
+    images = loader.dataset[perm[0]][0]
     images = images.unsqueeze(1).float().to(device)
 
     # save networks computational graph in tensorboard
