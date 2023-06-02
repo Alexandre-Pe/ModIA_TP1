@@ -75,7 +75,12 @@ if __name__=='__main__':
     optimizer = optim.Adam(unet.parameters(), lr=lr)
     writer = SummaryWriter(f'runs/{exp_name}')
     train(unet, optimizer, loader, epochs=epochs, writer=writer)
-    writer.add_graph(unet)
+    perm = torch.randperm(len(loader.dataset))
+    images = loader.dataset[perm][:256]
+    images = images.unsqueeze(1).float().to(device)
+
+    # save networks computational graph in tensorboard
+    writer.add_graph(unet, images)
 
     # Save model weights
     torch.save(unet.state_dict(), 'unet.pth')
