@@ -24,7 +24,10 @@ class MNISTNet(nn.Module):
         return x
 
     def get_features(self, x):
-        pass
+        x = self.pool(F.relu(self.conv1(x)))
+        x = self.pool(F.relu(self.conv2(x)))
+        x = x.view(-1, 16 * 4 * 4)
+        return x
 
 
 if __name__=='__main__':

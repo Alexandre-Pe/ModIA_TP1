@@ -12,12 +12,12 @@ def recognize_digit(image):
     return {str(i): probabilities[i].item() for i in range(10)}
 
 if __name__=='__main__':
-    parser = ...
-    parser.add_argument('--weights_path'...)
-    args = ...
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--weights_path', '-w', type=str, help="path_to_the_weights")
+    args = parser.parse_args()
 
     model = MNISTNet().to(device)
-    model.load_state_dict(torch.load(..., map_location=torch.device(device)))
+    model.load_state_dict(torch.load(args.weights_path, map_location=torch.device(device)))
     model.eval()
 
     gr.Interface(fn=recognize_digit, 
@@ -25,4 +25,4 @@ if __name__=='__main__':
                 outputs=gr.outputs.Label(num_top_classes=3),
                 live=True,
                 description="Draw a number on the sketchpad to see the model's prediction.",
-                ).launch(debug=True, share=True);
+                ).launch(debug=True, share=True)
